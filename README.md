@@ -1,65 +1,16 @@
-**--- DELETE START ---**
+# Alpine JS Table of Content
 
-# Alpine JS Plugin Template
-
-This is a template repository to help developers quickly build Alpine JS
-plugins.
-
-## How to Use
-
-1. Clone the repository with the "Use this template" button on GitHub
-2. Run `npm install` to install ES Build
-3. Build your plugin
-
-### Compiling
-
-To compile the code you run `npm run build` which will create two files in the
-`/dist` directory.
-
-### Testing
-
-In this template you will find a `index.html` file that you can use for testing
-how the Alpine JS plugin works.
-
-I recommend using [vercel/serve](https://www.npmjs.com/package/serve) to serve
-this file.
-
-## Things to Change
-
-- Find and replace "PLUGIN" with the name of your plugin
-- Find and replace "FILE" with the name of your compiled file
-- Find and replace "DESCRIPTION" with a description of your plugin
-- Uncomment "index.html" in the `.gitignore` file
-
-🚨 Make sure find and replace is case sensitive
-
-If you were creating a plugin called "Alpine JS CSV" you could do the following:
-
-- "PLUGIN" to "alpinejs-csv"
-- "FILE" to "csv"
-- "DESCRIPTION" to "Transform data into a CSV with Alpine JS 📈"
-
----
-
-### License
-
-The choice of adding a license and what license is best for your project is up
-to you.
-
-[Adding a License on GitHub](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository)
-
-**--- DELETE END ---**
-
-# PLUGIN
-
-DESCRIPTION
+Generate a table of content from headings on the page 📃
 
 ## Install
 
 ### With a CDN
 
 ```html
-<script defer src="https://unpkg.com/PLUGIN@latest/dist/FILE.min.js"></script>
+<script
+  defer
+  src="https://unpkg.com/alpinejs-table-of-content@latest/dist/toc.min.js"
+></script>
 
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 ```
@@ -67,27 +18,180 @@ DESCRIPTION
 ### With a Package Manager
 
 ```shell
-yarn add -D PLUGIN
+yarn add -D alpinejs-table-of-content
 
-npm install -D PLUGIN
+npm install -D alpinejs-table-of-content
 ```
 
 ```js
 import Alpine from 'alpinejs'
-import FILE from 'PLUGIN'
+import toc from 'alpinejs-table-of-content'
 
-Alpine.plugin(FILE)
+Alpine.plugin(toc)
 
 Alpine.start()
 ```
 
 ## Example
 
-Examples of how the plugin works.
+```html
+<article
+  class="prose mx-auto"
+  x-data="{ tableOfContent: [] }"
+  x-table-of-content
+>
+  <h1 id="heading-1">Heading 1</h1>
+
+  <template x-if="tableOfContent.length">
+    <ul class="not-prose list-disc">
+      <template
+        x-for="{ headingId, headingChildren, textContent } in tableOfContent"
+      >
+        <li>
+          <a :href="`#${headingId}`" x-text="textContent"> </a>
+
+          <template x-if="headingChildren.length">
+            <ul class="list-disc ml-4">
+              <template
+                x-for="{ headingId, headingChildren, textContent } in headingChildren"
+              >
+                <li>
+                  <a :href="`#${headingId}`" x-text="textContent"> </a>
+
+                  <template x-if="headingChildren.length">
+                    <ul class="list-disc ml-4">
+                      <template
+                        x-for="{ headingId, headingChildren, textContent } in headingChildren"
+                      >
+                        <li>
+                          <a :href="`#${headingId}`" x-text="textContent"> </a>
+                        </li>
+                      </template>
+                    </ul>
+                  </template>
+                </li>
+              </template>
+            </ul>
+          </template>
+        </li>
+      </template>
+    </ul>
+  </template>
+
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, commodi.
+  </p>
+
+  <h2 id="heading-2">Heading 2</h2>
+
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+  <h3 id="heading-3">Heading 3</h3>
+
+  <p>Lorem, ipsum dolor.</p>
+
+  <h4 id="heading-4">Heading 4</h4>
+
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo sunt alias,
+    possimus mollitia nisi pariatur vero numquam at iure labore! Labore est
+    laudantium nam voluptates laborum, inventore delectus dolore placeat impedit
+    quae?
+  </p>
+
+  <h3 id="heading-3.1">Heading 3.1</h3>
+
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium velit
+    unde, pariatur dolore, eveniet consectetur eligendi tempora dolor nesciunt
+    cumque quis repellendus, voluptate perspiciatis eaque quibusdam?
+  </p>
+
+  <h2 id="heading-2.1">Heading 2.1</h2>
+
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eaque ratione.
+    Mollitia placeat vitae voluptas!
+  </p>
+
+  <h2 id="heading-2.2">Heading 2.2</h2>
+
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique minima
+    harum ipsam!
+  </p>
+
+  <h3 id="heading-3.2">Heading 3.2</h3>
+
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni a est porro
+    facilis nam commodi ullam fugiat? Quisquam reprehenderit incidunt sint ad
+    facilis ducimus est rerum? Non commodi tempore provident.
+  </p>
+</article>
+```
+
+All you need is the `x-table-of-content` directive and a `tableOfContent: []`
+within the `x-data` of the same element. Exactly as shown in the example.
+
+From there, Alpine JS will read the content within the element with the
+`x-table-of-content` directive and locate all the H2, H3 and H4 elements.
+Generating a nested array of objects which parent and child relationships.
+Within these objects you'll have:
+
+- `headingId` (Comes from the `id` attribute on the heading - Useful for jump
+  links)
+- `headingChildren` (If the heading has child headings, these will appear here)
+- `textContent` (The text content of the heading)
+
+In the example above there is this piece of HTML:
+
+```html
+<template x-if="tableOfContent.length">
+  <ul class="not-prose list-disc">
+    <template
+      x-for="{ headingId, headingChildren, textContent } in tableOfContent"
+    >
+      <li>
+        <a :href="`#${headingId}`" x-text="textContent"> </a>
+
+        <template x-if="headingChildren.length">
+          <ul class="list-disc ml-4">
+            <template
+              x-for="{ headingId, headingChildren, textContent } in headingChildren"
+            >
+              <li>
+                <a :href="`#${headingId}`" x-text="textContent"> </a>
+
+                <template x-if="headingChildren.length">
+                  <ul class="list-disc ml-4">
+                    <template
+                      x-for="{ headingId, headingChildren, textContent } in headingChildren"
+                    >
+                      <li>
+                        <a :href="`#${headingId}`" x-text="textContent"> </a>
+                      </li>
+                    </template>
+                  </ul>
+                </template>
+              </li>
+            </template>
+          </ul>
+        </template>
+      </li>
+    </template>
+  </ul>
+</template>
+```
+
+This is looping through the `tableOfContent` and generating the nested list for
+the user to use to jump to, or just view the headings within the content.
+
+_This example uses Tailwind CSS, this is not required._
 
 ## Stats
 
-![](https://img.shields.io/bundlephobia/min/PLUGIN)
-![](https://img.shields.io/npm/v/PLUGIN)
-![](https://img.shields.io/npm/dt/PLUGIN)
-![](https://img.shields.io/github/license/markmead/PLUGIN)
+![](https://img.shields.io/bundlephobia/min/alpinejs-table-of-content)
+![](https://img.shields.io/npm/v/alpinejs-table-of-content)
+![](https://img.shields.io/npm/dt/alpinejs-table-of-content)
+![](https://img.shields.io/github/license/markmead/alpinejs-table-of-content)

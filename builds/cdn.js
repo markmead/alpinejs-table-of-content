@@ -1,3 +1,3 @@
-import FILE from '../src/index.js'
+import toc from '../src/index.js'
 
-document.addEventListener('alpine:init', () => window.Alpine.plugin(FILE))
+document.addEventListener('alpine:init', () => window.Alpine.plugin(toc))
