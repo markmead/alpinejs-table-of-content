@@ -1,12 +1,10 @@
 {
   "name": "alpinejs-table-of-content",
-  "version": "1.0.1",
-  "description": "Generate a table of content from headings on the page 📃",
+  "version": "1.0.2",
+  "description": "Generate a table of content from headings within an element 📖",
   "keywords": [
-    "Alpine",
     "Alpine JS",
     "Alpine JS Plugin",
-    "Alpine JS Plugins",
     "Alpine JS Table of Content",
     "Alpine JS TOC",
     "Alpine JS Table of Content Plugin",

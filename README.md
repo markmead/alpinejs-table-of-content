@@ -1,6 +1,6 @@
 # Alpine JS Table of Content
 
-Generate a table of content from headings on the page 📃
+Generate a table of content from headings within an element 📖
 
 ## Install
 
